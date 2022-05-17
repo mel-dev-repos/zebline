@@ -59,8 +59,14 @@ export default function BasicTable() {
   const handleClose = () => setOpen(false);
 
   //handle adding users
+  const handleAddToList = (newUser) => {
+    setDataUser({ ...dataUser, data: [newUser, ...dataUser.data] });
+  };
 
-  console.log(dataUser);
+  //handel updating edited rows
+  const handleAddEdditeds = (editedUser) => {
+    setDataUser({ data: [editedUser, ...dataUser.data] });
+  };
   return (
     <>
       {loading ? (
@@ -69,6 +75,7 @@ export default function BasicTable() {
         <>
           <main>
             <BasicModal
+              addToList={handleAddToList}
               setDataUser={setDataUser}
               setLoading={setLoading}
               loading={loading}
@@ -117,6 +124,8 @@ export default function BasicTable() {
                           </TableCell>
                           <TableCell>
                             <CustomizedMenus
+                              handleAddEdditeds={handleAddEdditeds}
+                              setIdEditing={setIdEditing}
                               dataFirstName={data.first_name}
                               Data={data}
                               dataUser={dataUser}

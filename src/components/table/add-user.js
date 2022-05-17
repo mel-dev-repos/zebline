@@ -22,17 +22,14 @@ const style = {
 const StyledButton = styled(Button)`
   float: right;
 `;
-export default function BasicModal({
-  setDataUser,
-  setLoading,
-  loading,
-  dataUser,
-}) {
+export default function BasicModal({ setLoading, loading, addToList }) {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
+    avatar:
+      "https://image.shutterstock.com/image-photo/passport-picture-businesswoman-brown-hair-260nw-250775908.jpg",
   });
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,20 +42,15 @@ export default function BasicModal({
       [nameInp]: value,
     }));
   };
-  const data = {
-    id: 6,
-    email: name.email,
-    first_name: name.firstName,
-    last_name: name.lastName,
-  };
 
-  // console.log(dataUser);
-  // dataUser?.data?.push(data);
-  // console.log(dataUser);
   const handleAddUser = () => {
     setLoading(true);
-    axios.post(`${BASE_URL}/users`).then(() => {
-      dataUser.data.unshift(data);
+    axios.post(`${BASE_URL}/users`).then((res) => {
+      if (res.status === 201) {
+        handleClose();
+      }
+
+      addToList(name);
     });
     setLoading(false);
   };
@@ -87,14 +79,14 @@ export default function BasicModal({
                 <input
                   type={"text"}
                   placeholder="first-name"
-                  name="firstName"
+                  name="first_name"
                   onChange={handelChange}
                 />
                 <br />
                 <input
                   type={"text"}
                   placeholder="last-name"
-                  name="lastName"
+                  name="last_name"
                   onChange={handelChange}
                 />
                 <br />

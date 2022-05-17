@@ -1,10 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
-import { BASE_URL } from "../../../configs/config";
 const style = {
   position: "absolute",
   top: "50%",
@@ -17,11 +15,12 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal({ dataUser, DataID, setLoading }) {
+export default function BasicModal({ DataID, handleAddEdditeds }) {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
+    email: "",
   });
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -33,20 +32,14 @@ export default function BasicModal({ dataUser, DataID, setLoading }) {
       [nameInp]: value,
     }));
   };
+  const handelUpdate = () => {
+    axios.put("https://reqres.in/api/users/1").then((res) => {
+      if (res.status === 200) {
+        handleClose();
+      }
 
-  const handleUpdate = () => {
-    axios
-      .put(`${BASE_URL}/users/1`, {
-        data: [
-          {
-            first_name: name.firstName,
-            last_name: name.lastName,
-          },
-        ],
-      })
-      .then((res) => {
-        dataUser.data.push(res.data?.data[0]);
-      });
+      handleAddEdditeds(name);
+    });
   };
   return (
     <div>
@@ -63,18 +56,20 @@ export default function BasicModal({ dataUser, DataID, setLoading }) {
           <input
             type={"text"}
             placeholder="firstName"
-            name="firstName"
+            name="first_name"
             onChange={handelChange}
           />
           <br />
           <input
             type={"text"}
             placeholder="lastName"
-            name="lastName"
+            name="last_name"
             onChange={handelChange}
           />
           <br />
-          <Button variant="contained" onClick={handleUpdate}>
+          <input type={"text"} placeholder="email" name="email" />
+          <br />
+          <Button variant="contained" onClick={handelUpdate}>
             Update
           </Button>
         </Box>

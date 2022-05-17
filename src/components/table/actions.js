@@ -56,7 +56,8 @@ const StyledMenu = styled((props) => (
 export default function CustomizedMenus({
   Data,
   handleDeleteClick,
-  handleOpen,
+  setIdEditing,
+  handleAddEdditeds,
   dataFirstName,
   setDataUser,
 }) {
@@ -93,6 +94,8 @@ export default function CustomizedMenus({
           <MenuItem disableRipple>
             <BasicModal
               DataID={Data.id}
+              setIdEditing={setIdEditing}
+              handleAddEdditeds={handleAddEdditeds}
               dataFirstName={dataFirstName}
               setDataUser={setDataUser}
             />
