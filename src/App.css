@@ -1,5 +1,10 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #E0E7F1;
+    
+}
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }

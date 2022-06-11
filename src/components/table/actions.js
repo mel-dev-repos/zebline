@@ -57,12 +57,14 @@ export default function CustomizedMenus({
   Data,
   handleDeleteClick,
   setIdEditing,
+  isEditing,
   handleAddEdditeds,
   dataFirstName,
   setDataUser,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  // console.log(Data.id); all ids
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -95,6 +97,7 @@ export default function CustomizedMenus({
             <BasicModal
               DataID={Data.id}
               setIdEditing={setIdEditing}
+              isEditing={isEditing}
               handleAddEdditeds={handleAddEdditeds}
               dataFirstName={dataFirstName}
               setDataUser={setDataUser}

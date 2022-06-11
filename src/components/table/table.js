@@ -15,12 +15,12 @@ import "./table.css";
 import BasicModal from "../table/add-user";
 import { BASE_URL } from "../../configs/config";
 import PaginationControlled from "../../components/table/pagination/pagination";
-
+import Edit from "./edit";
 export default function BasicTable() {
   const [dataUser, setDataUser] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [isEditing, setIdEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [open, setOpen] = React.useState(false);
   function createData(name, user_id, Status, phone) {
     return { name, user_id, Status, phone };
@@ -46,6 +46,7 @@ export default function BasicTable() {
   }, [page]);
   //handel deleting whilde clicking on a delete button
   const handleDeleteClick = (id) => {
+    console.log(id);
     const dataUserId = dataUser?.data?.findIndex((item) => {
       return item.id === id;
     });
@@ -67,6 +68,14 @@ export default function BasicTable() {
   const handleAddEdditeds = (editedUser) => {
     setDataUser({ data: [editedUser, ...dataUser.data] });
   };
+  const handleClick = (id) => {
+    dataUser?.data?.filter((item) => {
+      return item.id === id;
+      setDataUser(document.getElementById("table-cell"));
+    });
+
+    setIsEditing(true);
+  };
   return (
     <>
       {loading ? (
@@ -86,7 +95,7 @@ export default function BasicTable() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>User</TableCell>
+                    <TableCell>users</TableCell>
                     <TableCell>user_id</TableCell>
                     <TableCell>ُStatus</TableCell>
                     <TableCell>Location</TableCell>
@@ -104,14 +113,27 @@ export default function BasicTable() {
                             "&:last-child td, &:last-child th": { border: 0 },
                           }}
                         >
-                          <TableCell component="th" scope="row">
-                            <div style={{ display: "flex" }}>
-                              <img src={data.avatar} />
-                              <h5>
-                                {data.first_name} {data.last_name} <br />
-                                <span> {data.email}</span>
-                              </h5>
-                            </div>
+                          <TableCell
+                            id="table-cell"
+                            component="th"
+                            scope="row"
+                            name={data.first_name}
+                            onDoubleClick={() => handleClick(data.id)}
+                          >
+                            {isEditing ? (
+                              <Edit
+                                dataUser={dataUser}
+                                setDataUser={setDataUser}
+                              />
+                            ) : (
+                              <div style={{ display: "flex" }}>
+                                <img src={data.avatar} />
+                                <h5>
+                                  {data.first_name} {data.last_name} <br />
+                                  <span> {data.email}</span>
+                                </h5>
+                              </div>
+                            )}
                           </TableCell>
                           <TableCell>{data.id}</TableCell>
                           <TableCell>
@@ -125,7 +147,7 @@ export default function BasicTable() {
                           <TableCell>
                             <CustomizedMenus
                               handleAddEdditeds={handleAddEdditeds}
-                              setIdEditing={setIdEditing}
+                              setIdEditing={setIsEditing}
                               dataFirstName={data.first_name}
                               Data={data}
                               dataUser={dataUser}

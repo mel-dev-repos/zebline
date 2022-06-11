@@ -1,9 +1,9 @@
-import BasicTable from "./components/table/table";
+import RouteFunc from "./routes/route";
 import "./app.css";
 function App() {
   return (
     <div className="App">
-      <BasicTable />
+      <RouteFunc />
     </div>
   );
 }
